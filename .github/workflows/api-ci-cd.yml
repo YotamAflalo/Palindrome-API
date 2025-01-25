@@ -45,4 +45,4 @@ jobs:
 
     - name: Push image to Docker Hub
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      run: docker push yotam433/Palindrome-API:latest
+      run: docker push yotam433/palindrome-api:latest
