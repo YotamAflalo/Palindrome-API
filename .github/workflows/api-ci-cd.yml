@@ -34,7 +34,7 @@ jobs:
         pytest tests/test_api.py
 
     - name: Build Docker image
-      run: docker build -t yotam433/Palindrome-API:latest -f docker/DockerFile.api .
+      run: docker build -t yotam433/palindrome-api:latest -f docker/DockerFile.api .
 
     - name: Log in to Docker Hub
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
