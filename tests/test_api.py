@@ -108,7 +108,7 @@ def test_json_without_string_key():
             "password": os.getenv('PASSWORD')}
         )
         assert response.status_code == 422
-        assert response.json()["detail"][0]['msg'] == 'field required'
+        assert response.json()["detail"][0]['msg'] in ['field required','Field required']
 
 ### chack wrong input type - non string input
 def test_non_string_string_value():
@@ -121,7 +121,7 @@ def test_non_string_string_value():
             "password": os.getenv('PASSWORD')}
             )
     assert response.status_code == 422
-    assert response.json()["detail"][0]['msg'] == '"string" must be a string'
+    assert response.json()["detail"][0]['msg'] in ['"string" must be a string','Value error, "string" must be a string']
 
 ### chack legitimate cases
 def test_normal_palindrome_cases():
