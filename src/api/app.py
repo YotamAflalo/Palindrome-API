@@ -16,7 +16,7 @@ if credentials_type =='env':
     dotenv.load_dotenv(os.path.join(project_root, '.env'))
 if credentials_type =='docker_env':
     dotenv.load_dotenv()
-from src.api.credentials import check_pass_name,get_docker_credentials
+from src.api.credentials import check_pass_name
 
 # Create a Logger instance
 logger = Logger(logger_name=logger_name,log_mode=log_mode,logs_dir=project_root)
@@ -39,7 +39,6 @@ class api_input(BaseModel):
         return v
     
 # TODO - it may be a good idea to use https. unforthnaly it is not very straightforward in fastapi.
-# It may take another app/container that will be before this app, and process this request. 
 # see https://fastapi.tiangolo.com/deployment/https/#dns 
 @app.middleware("http")    
 async def authenticator(request: Request, call_next):
