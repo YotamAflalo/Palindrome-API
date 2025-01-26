@@ -47,7 +47,7 @@ docker pull yotam433/palindrome-api:latest
 ```bash
 docker run -p 8000:8000  -e USERNAME=your_username  -e PASSWORD=your_password -v my-logs-volume:/app/logs palindrom-api
 ```
-
+(dont forget to change your_username and your_password to your credentials)
 ## API Endpoints
 - `/string` (POST)
   - Accepts JSON with a 'string' parameter
