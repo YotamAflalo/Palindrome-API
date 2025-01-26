@@ -1,13 +1,12 @@
+import os
+import sys
+import dotenv
 from pathlib import Path
-import sys #TODO - packge?
 project_root = str(Path(__file__).parent.parent)
 sys.path.insert(0, project_root)
-import dotenv
-import os
+from src.palindrome import clean_string, pal_length_v2, pal_length_manachers, expand
 dotenv.load_dotenv(os.path.join(project_root, '.env'))
 
-
-from src.palindrome import clean_string, pal_length_v2, pal_length_manachers, expand
 #test the clean_string function
 def test_clean_string():
     assert clean_string("hello123!") == "hello"

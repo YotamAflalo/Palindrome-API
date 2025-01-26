@@ -1,14 +1,12 @@
-from fastapi.testclient import TestClient
-from pathlib import Path
-import sys #TODO - packge?
-project_root = str(Path(__file__).parent.parent)
-sys.path.insert(0, project_root)
 import dotenv
 import os
-dotenv.load_dotenv(os.path.join(project_root, '.env'))
+import sys
+from fastapi.testclient import TestClient
+from pathlib import Path
+project_root = str(Path(__file__).parent.parent)
+sys.path.insert(0, project_root)
 
-# TODO - tow attempts 
-#TODO - system test
+dotenv.load_dotenv(os.path.join(project_root, '.env'))
 from src.api.app import app
 
 client = TestClient(app)

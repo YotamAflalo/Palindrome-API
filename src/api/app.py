@@ -1,9 +1,10 @@
-from fastapi import FastAPI, Request,HTTPException,Header,Depends
-from fastapi.responses import JSONResponse
-from pathlib import Path
 import os
 import sys
 import time
+import dotenv
+from fastapi import FastAPI, Request,HTTPException
+from fastapi.responses import JSONResponse
+from pathlib import Path
 from pydantic import BaseModel,Extra,validator,ValidationError #to ensure the integrity of the input
 
 project_root = str(Path(__file__).parent.parent.parent)
@@ -11,12 +12,12 @@ sys.path.insert(0, project_root)
 from config.config import maximise_time,credentials_type,log_mode,logger_name
 from src.palindrome import pal_length_v2,pal_length_manachers,clean_string
 from logger import Logger
-import dotenv
+from src.api.credentials import check_pass_name
+
 if credentials_type =='env':
     dotenv.load_dotenv(os.path.join(project_root, '.env'))
 if credentials_type =='docker_env':
     dotenv.load_dotenv()
-from src.api.credentials import check_pass_name
 
 # Create a Logger instance
 logger = Logger(logger_name=logger_name,log_mode=log_mode,logs_dir=project_root)
@@ -31,14 +32,14 @@ class api_input(BaseModel):
         extra = Extra.ignore 
 
     @validator('string', pre=True)
-    def validate_string_type(cls, v):
+    def validate_string_type(cls, string):
         # Explicitly convert input to string and validate
-        if not isinstance(v, str):
-            logger.error(f"Invalid input type: {type(v)}, Input value: {v}")
+        if not isinstance(string, str):
+            logger.error(f"Invalid input type: {type(string)}, Input value: {string}")
             raise ValueError('"string" must be a string')
-        return v
+        return string
     
-# TODO - it may be a good idea to use https. unforthnaly it is not very straightforward in fastapi.
+#it may be a good idea to use https. unforthnaly it is not very straightforward in fastapi.
 # see https://fastapi.tiangolo.com/deployment/https/#dns 
 @app.middleware("http")    
 async def authenticator(request: Request, call_next):
@@ -62,7 +63,7 @@ async def authenticator(request: Request, call_next):
     return response
 
 @app.post("/string")
-async def palindrom_length(input:api_input,request: Request,maximise_time = maximise_time):
+async def palindrom_length(input:api_input,maximise_time = maximise_time):
     """
     Calculate max palindrome lengths in a substring.
     Expects JSON input with a 'string' key.
@@ -76,7 +77,7 @@ async def palindrom_length(input:api_input,request: Request,maximise_time = maxi
     try:
         input_string = input.string
         logger.debug(f'the input is {input_string}')
-    except ValueError:
+    except ValueError as e:
         logger.error(f"Error processing raw input: {e}")
         raise HTTPException(status_code=400, detail='Invalid JSON')  
     

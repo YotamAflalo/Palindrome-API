@@ -1,4 +1,3 @@
-
 import re
 def clean_string(string):
 	"""Deletes irrelevant characters from string.
@@ -87,7 +86,7 @@ def pal_length_manachers(string:str):
 			L[i] = min(L[iMirror], diff) 
 
 		# try to expand palindrome centered at currentRightPosition i.
-		try: #TODO: what expation it can rise
+		try: #the exception may be "out of index"
 			while ((i+L[i]) < N and (i-L[i]) > 0) and (((i+L[i]+1) % 2 == 0) or (string[(i+L[i]+1)//2] == string[(i-L[i]-1)//2])): 
 				L[i]+=1
 		except Exception as e: 

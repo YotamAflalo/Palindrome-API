@@ -1,6 +1,6 @@
+import os
 import logging
 from datetime import datetime
-import os
 
 class Logger(logging.Logger):
     """

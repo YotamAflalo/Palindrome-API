@@ -1,12 +1,12 @@
-from pathlib import Path
 import os
 import sys
+import dotenv
+from pathlib import Path
 
 project_root = str(Path(__file__).parent.parent.parent)
 sys.path.insert(0, project_root)
 from config.config import credentials_type,log_mode,logger_name
 from logger import Logger
-import dotenv
 if credentials_type =='env':
     dotenv.load_dotenv(os.path.join(project_root, '.env'))
 if credentials_type =='docker_env':

@@ -28,8 +28,22 @@ uvicorn src.api.app:app --reload
 ```bash
 docker volume create my-logs-volume
 ```
+2. build the docker image:
+(a) build:
+- option a: build the image:
+create an .env file and then:
 
-2. Run Docker container:
+```bash
+docker build -t palindrome-api -f docker/DockerFile . 
+```
+- option b: pull the image from dockerhub
+
+```bash
+
+docker pull yotam433/palindrome-api:latest
+```
+3. Run Docker container:
+
 ```bash
 docker run -p 8000:8000  -e USERNAME=your_username  -e PASSWORD=your_password -v my-logs-volume:/app/logs palindrom-api
 ```
@@ -41,6 +55,29 @@ docker run -p 8000:8000  -e USERNAME=your_username  -e PASSWORD=your_password -v
 
 - `/` (GET)
   - Explains how to access the API
+
+## Querying Palindrome Length Finder API in Postman
+
+### 1. Set Headers
+- Add two headers:
+  - `username`: Your configured username
+  - `password`: Your configured password
+
+### 2. Configure Request
+- **Method**: POST
+- **URL**: `http://localhost:8000/string`
+- **Body**: 
+  - Select `raw`
+  - Choose `JSON`
+  - Enter JSON body
+
+### Example Request Body
+```json
+{
+    "string": "abba"
+}
+```
+
 
 ## Authentication
 - Requires HTTP headers:
@@ -95,6 +132,7 @@ docker run -p 8000:8000 \
 - Log files include timestamp, logger name, log level, and message
 
 ## Testing
+0. make an .env file with username and password
 1. Ensure all dependencies are installed:
 ```bash
 pip install -r requirements.txt
@@ -102,11 +140,9 @@ pip install -r requirements.txt
 
 2. Run tests using pytest:
 ```bash
-pytest test_api.py
-pytest test_palindrome.py
+pytest tests\test_api.py
+pytest tests\test_palindrome.py
 ```
-
-
 
 ## Configuration
 - Modify `config.py` to choose credential method, log mode, time or space minimization and logger name:
@@ -130,7 +166,6 @@ maximise_time = True  # True: minimize runtime, False: minimize memory usage
 2. Configure `config.py` with.
 3. create credential an expleined above.
 3. Run as explain above. 
-
 
 ## CI/CD Pipeline
 
